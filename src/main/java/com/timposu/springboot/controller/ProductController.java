@@ -6,8 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.timposu.springboot.domain.Product;
 import com.timposu.springboot.service.ProductRepository;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @RestController
+@RequestMapping("/api")
 public class ProductController {
 	
 	@Autowired ProductRepository productRepository;
@@ -17,8 +20,13 @@ public class ProductController {
 		return "Halo Dunia";
 	}
 	
-	@RequestMapping("/product/list")
+	@RequestMapping("/product")
 	public Iterable<Product> allProduct(){
 		return productRepository.findAll();
 	}
+        
+        @RequestMapping(value = "/product/{id}", method=RequestMethod.GET)
+        public Product findById(@PathVariable Long id){
+            return productRepository.findOne(id);
+        }
 }
